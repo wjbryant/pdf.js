@@ -181,14 +181,14 @@ var Preferences = {
 //#if !(FIREFOX || MOZCENTRAL || B2G)
 Preferences._writeToStorage = function (prefObj) {
   return new Promise(function (resolve) {
-    localStorage.setItem('pdfjs.preferences', JSON.stringify(prefObj));
+    sessionStorage.setItem('pdfjs.preferences', JSON.stringify(prefObj));
     resolve();
   });
 };
 
 Preferences._readFromStorage = function (prefObj) {
   return new Promise(function (resolve) {
-    var readPrefs = JSON.parse(localStorage.getItem('pdfjs.preferences'));
+    var readPrefs = JSON.parse(sessionStorage.getItem('pdfjs.preferences'));
     resolve(readPrefs);
   });
 };

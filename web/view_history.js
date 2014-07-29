@@ -18,6 +18,7 @@
 
 'use strict';
 
+// the mfp does not support localStorage, so use sessionStorage instead
 /**
  * View History - This is a utility for saving various view parameters for
  *                recently opened files.
@@ -74,7 +75,7 @@ var ViewHistory = (function ViewHistoryClosure() {
 //#endif
 
 //#if !(FIREFOX || MOZCENTRAL || B2G)
-        localStorage.setItem('database', databaseStr);
+        sessionStorage.setItem('database', databaseStr);
         resolve();
 //#endif
       }.bind(this));
@@ -91,7 +92,7 @@ var ViewHistory = (function ViewHistoryClosure() {
 //#endif
 
 //#if !(FIREFOX || MOZCENTRAL || B2G)
-        resolve(localStorage.getItem('database'));
+        resolve(sessionStorage.getItem('database'));
 //#endif
       });
     },
