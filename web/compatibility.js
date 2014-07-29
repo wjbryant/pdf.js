@@ -105,6 +105,9 @@ if (typeof PDFJS === 'undefined') {
   }
 })();
 
+// use native Object.defineProperty method, since __defineGetter__ and
+// __defineSetter__ are not supported
+/*
 // Object.defineProperty()?
 // Support: Android<4.0, Safari<5.1
 (function checkObjectDefinePropertyCompatibility() {
@@ -146,6 +149,7 @@ if (typeof PDFJS === 'undefined') {
     }
   };
 })();
+*/
 
 
 // No XMLHttpRequest#response?
