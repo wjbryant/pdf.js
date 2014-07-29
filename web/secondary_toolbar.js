@@ -137,8 +137,8 @@ var SecondaryToolbar = {
       return;
     }
     this.opened = true;
-    this.toggleButton.classList.add('toggled');
-    this.toolbar.classList.remove('hidden');
+    this.toggleButton.getClassList().add('toggled');
+    this.toolbar.getClassList().remove('hidden');
   },
 
   close: function secondaryToolbarClose(target) {
@@ -148,8 +148,8 @@ var SecondaryToolbar = {
       return;
     }
     this.opened = false;
-    this.toolbar.classList.add('hidden');
-    this.toggleButton.classList.remove('toggled');
+    this.toolbar.getClassList().add('hidden');
+    this.toggleButton.getClassList().remove('toggled');
   },
 
   toggle: function secondaryToolbarToggle() {

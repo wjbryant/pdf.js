@@ -90,8 +90,8 @@ var OverlayManager = {
         }
       }
       this.active = name;
-      this.overlays[this.active].element.classList.remove('hidden');
-      this.overlays[this.active].container.classList.remove('hidden');
+      this.overlays[this.active].element.getClassList().remove('hidden');
+      this.overlays[this.active].container.getClassList().remove('hidden');
 
       window.addEventListener('keydown', this._keyDown);
       resolve();
@@ -112,8 +112,8 @@ var OverlayManager = {
       } else if (this.active !== name) {
         throw new Error('Another overlay is currently active.');
       }
-      this.overlays[this.active].container.classList.add('hidden');
-      this.overlays[this.active].element.classList.add('hidden');
+      this.overlays[this.active].container.getClassList().add('hidden');
+      this.overlays[this.active].element.getClassList().add('hidden');
       this.active = null;
 
       window.removeEventListener('keydown', this._keyDown);

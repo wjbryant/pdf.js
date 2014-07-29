@@ -203,12 +203,12 @@ var ProgressBar = (function ProgressBarClosure() {
 
     updateBar: function ProgressBar_updateBar() {
       if (this._indeterminate) {
-        this.div.classList.add('indeterminate');
+        this.div.getClassList().add('indeterminate');
         this.div.style.width = this.width + this.units;
         return;
       }
 
-      this.div.classList.remove('indeterminate');
+      this.div.getClassList().remove('indeterminate');
       var progressSize = this.width * this._percent / 100;
       this.div.style.width = progressSize + this.units;
     },
@@ -235,7 +235,7 @@ var ProgressBar = (function ProgressBarClosure() {
     },
 
     hide: function ProgressBar_hide() {
-      this.bar.classList.add('hidden');
+      this.bar.getClassList().add('hidden');
       this.bar.removeAttribute('style');
     }
   };

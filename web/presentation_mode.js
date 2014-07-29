@@ -174,10 +174,10 @@ var PresentationMode = {
     if (this.controlsTimeout) {
       clearTimeout(this.controlsTimeout);
     } else {
-      this.container.classList.add(SELECTOR);
+      this.container.getClassList().add(SELECTOR);
     }
     this.controlsTimeout = setTimeout(function hideControlsTimeout() {
-      this.container.classList.remove(SELECTOR);
+      this.container.getClassList().remove(SELECTOR);
       delete this.controlsTimeout;
     }.bind(this), DELAY_BEFORE_HIDING_CONTROLS);
   },
@@ -186,7 +186,7 @@ var PresentationMode = {
     if (!this.controlsTimeout) {
       return;
     }
-    this.container.classList.remove(SELECTOR);
+    this.container.getClassList().remove(SELECTOR);
     clearTimeout(this.controlsTimeout);
     delete this.controlsTimeout;
   },
@@ -220,7 +220,7 @@ var PresentationMode = {
       // Enable clicking of links in presentation mode. Please note:
       // Only links pointing to destinations in the current PDF document work.
       var isInternalLink = (evt.target.href &&
-                            evt.target.classList.contains('internalLink'));
+                            evt.target.getClassList().contains('internalLink'));
       if (!isInternalLink) {
         // Unless an internal link was clicked, advance one page.
         evt.preventDefault();

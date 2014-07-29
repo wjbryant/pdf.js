@@ -48,7 +48,7 @@ var ThumbnailView = function thumbnailView(container, id, defaultViewport) {
   if (id === 1) {
     // Highlight the thumbnail of the first page when no page number is
     // specified (or exists in cache) when the document is loaded.
-    div.classList.add('selected');
+    div.getClassList().add('selected');
   }
 
   var ring = document.createElement('div');

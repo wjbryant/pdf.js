@@ -497,7 +497,7 @@ var PageView = function pageView(container, id, scale,
     var canvasWrapper = document.createElement('div');
     canvasWrapper.style.width = div.style.width;
     canvasWrapper.style.height = div.style.height;
-    canvasWrapper.classList.add('canvasWrapper');
+    canvasWrapper.getClassList().add('canvasWrapper');
 
     var canvas = document.createElement('canvas');
     canvas.id = 'page' + this.id;

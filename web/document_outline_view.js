@@ -25,7 +25,7 @@ var DocumentOutlineView = function documentOutlineView(outline) {
   }
 
   if (!outline) {
-    if (!outlineView.classList.contains('hidden')) {
+    if (!outlineView.getClassList().contains('hidden')) {
       PDFView.switchSidebarView('thumbs');
     }
     return;

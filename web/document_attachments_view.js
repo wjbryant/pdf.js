@@ -25,7 +25,7 @@ var DocumentAttachmentsView = function documentAttachmentsView(attachments) {
   }
 
   if (!attachments) {
-    if (!attachmentsView.classList.contains('hidden')) {
+    if (!attachmentsView.getClassList().contains('hidden')) {
       PDFView.switchSidebarView('thumbs');
     }
     return;

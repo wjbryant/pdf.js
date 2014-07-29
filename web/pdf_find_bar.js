@@ -132,9 +132,9 @@ var PDFFindBar = {
     }
 
     if (notFound) {
-      this.findField.classList.add('notFound');
+      this.findField.getClassList().add('notFound');
     } else {
-      this.findField.classList.remove('notFound');
+      this.findField.getClassList().remove('notFound');
     }
 
     this.findField.setAttribute('data-status', status);
@@ -144,8 +144,8 @@ var PDFFindBar = {
   open: function() {
     if (!this.opened) {
       this.opened = true;
-      this.toggleButton.classList.add('toggled');
-      this.bar.classList.remove('hidden');
+      this.toggleButton.getClassList().add('toggled');
+      this.bar.getClassList().remove('hidden');
     }
 
     this.findField.select();
@@ -157,8 +157,8 @@ var PDFFindBar = {
       return;
     }
     this.opened = false;
-    this.toggleButton.classList.remove('toggled');
-    this.bar.classList.add('hidden');
+    this.toggleButton.getClassList().remove('toggled');
+    this.bar.getClassList().add('hidden');
 
     PDFFindController.active = false;
   },
