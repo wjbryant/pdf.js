@@ -121,8 +121,8 @@ var AnnotationUtils = (function AnnotationUtilsClosure() {
     image.src = PDFJS.imageResourcesPath + 'annotation-' +
       iconName.toLowerCase() + '.svg';
     image.alt = '[{{type}} Annotation]';
-    image.dataset.l10nId = 'text_annotation_type';
-    image.dataset.l10nArgs = JSON.stringify({type: iconName});
+    image.getDataset().l10nId = 'text_annotation_type';
+    image.getDataset().l10nArgs = JSON.stringify({type: iconName});
 
     var contentWrapper = document.createElement('div');
     contentWrapper.className = 'annotTextContentWrapper';

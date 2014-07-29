@@ -280,16 +280,24 @@ if (typeof PDFJS === 'undefined') {
   };
 })();
 
+// defineProperty is not supported on DOM objects
+// add getDataset method instead
 // HTMLElement dataset property
 // Support: IE<11, Safari<5.1, Android<4.0
 (function checkDatasetProperty() {
+  /*
   var div = document.createElement('div');
   if ('dataset' in div) {
     return; // dataset property exists
   }
+  */
 
-  Object.defineProperty(HTMLElement.prototype, 'dataset', {
-    get: function() {
+  //Object.defineProperty(HTMLElement.prototype, 'dataset', {
+  //  get: function() {
+    HTMLElement.prototype.getDataset = function () {
+      if (this.dataset) {
+        return this.dataset;
+      }
       if (this._dataset) {
         return this._dataset;
       }
@@ -307,24 +315,33 @@ if (typeof PDFJS === 'undefined') {
         dataset[key] = attribute.value;
       }
 
+      // defineProperty is not supported on DOM objects
+      /*
       Object.defineProperty(this, '_dataset', {
         value: dataset,
         writable: false,
         enumerable: false
       });
+      */
+      this._dataset = dataset;
       return dataset;
-    },
-    enumerable: true
-  });
+    };
+  //  },
+  //  enumerable: true
+  //});
 })();
 
+// defineProperty is not supported on DOM objects
+// add getClassList method instead
 // HTMLElement classList property
 // Support: IE<10, Android<4.0, iOS<5.0
 (function checkClassListProperty() {
+  /*
   var div = document.createElement('div');
   if ('classList' in div) {
     return; // classList property exists
   }
+  */
 
   function changeList(element, itemName, add, remove) {
     var s = element.className || '';
@@ -358,8 +375,12 @@ if (typeof PDFJS === 'undefined') {
     }
   };
 
-  Object.defineProperty(HTMLElement.prototype, 'classList', {
-    get: function() {
+  //Object.defineProperty(HTMLElement.prototype, 'classList', {
+  //  get: function() {
+    HTMLElement.prototype.getClassList = function () {
+      if (this.classList) {
+        return this.classList;
+      }
       if (this._classList) {
         return this._classList;
       }
@@ -371,15 +392,20 @@ if (typeof PDFJS === 'undefined') {
           enumerable: true
         }
       });
+      // defineProperty is not supported on DOM objects
+      /*
       Object.defineProperty(this, '_classList', {
         value: classList,
         writable: false,
         enumerable: false
       });
+      */
+      this._classList = classList;
       return classList;
-    },
-    enumerable: true
-  });
+    };
+  //  },
+  //  enumerable: true
+  //});
 })();
 
 // Check console compatibility
