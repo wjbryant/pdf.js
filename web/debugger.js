@@ -45,15 +45,15 @@ var FontInspector = (function FontInspectorClosure() {
     }
   }
   function textLayerClick(e) {
-    if (!e.target.dataset.fontName ||
+    if (!e.target.getDataset().fontName ||
         e.target.tagName.toUpperCase() !== 'DIV') {
       return;
     }
-    var fontName = e.target.dataset.fontName;
+    var fontName = e.target.getDataset().fontName;
     var selects = document.getElementsByTagName('input');
     for (var i = 0; i < selects.length; ++i) {
       var select = selects[i];
-      if (select.dataset.fontName != fontName) {
+      if (select.getDataset().fontName != fontName) {
         continue;
       }
       select.checked = !select.checked;
@@ -129,7 +129,7 @@ var FontInspector = (function FontInspectorClosure() {
       });
       var select = document.createElement('input');
       select.setAttribute('type', 'checkbox');
-      select.dataset.fontName = fontName;
+      select.getDataset().fontName = fontName;
       select.addEventListener('click', (function(select, fontName) {
         return (function() {
            selectFont(fontName, select.checked);
@@ -310,7 +310,7 @@ var Stepper = (function StepperClosure() {
       var self = this;
 
       function cboxOnClick() {
-        var x = +this.dataset.idx;
+        var x = +this.getDataset().idx;
         if (this.checked) {
           self.breakPoints.push(x);
         } else {
@@ -330,7 +330,7 @@ var Stepper = (function StepperClosure() {
       for (var i = this.operatorListIdx; i < operatorsToDisplay; i++) {
         var line = c('tr');
         line.className = 'line';
-        line.dataset.idx = i;
+        line.getDataset().idx = i;
         chunk.appendChild(line);
         var checked = this.breakPoints.indexOf(i) != -1;
         var args = operatorList.argsArray[i] || [];
@@ -340,7 +340,7 @@ var Stepper = (function StepperClosure() {
         cbox.type = 'checkbox';
         cbox.className = 'points';
         cbox.checked = checked;
-        cbox.dataset.idx = i;
+        cbox.getDataset().idx = i;
         cbox.onclick = cboxOnClick;
 
         breakCell.appendChild(cbox);
@@ -419,7 +419,7 @@ var Stepper = (function StepperClosure() {
       var allRows = this.panel.getElementsByClassName('line');
       for (var x = 0, xx = allRows.length; x < xx; ++x) {
         var row = allRows[x];
-        if (row.dataset.idx == idx) {
+        if (row.getDataset().idx == idx) {
           row.style.backgroundColor = 'rgb(251,250,207)';
           row.scrollIntoView();
         } else {

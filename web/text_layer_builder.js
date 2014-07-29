@@ -58,7 +58,7 @@ var TextLayerBuilder = (function TextLayerBuilderClosure() {
 
       for (var i = 0; i < textDivsLength; i++) {
         var textDiv = textDivs[i];
-        if (textDiv.dataset.isWhitespace !== undefined) {
+        if (textDiv.getDataset().isWhitespace !== undefined) {
           continue;
         }
 
@@ -66,8 +66,8 @@ var TextLayerBuilder = (function TextLayerBuilderClosure() {
         var width = ctx.measureText(textDiv.textContent).width;
         if (width > 0) {
           textLayerFrag.appendChild(textDiv);
-          var textScale = textDiv.dataset.canvasWidth / width;
-          var rotation = textDiv.dataset.angle;
+          var textScale = textDiv.getDataset().canvasWidth / width;
+          var rotation = textDiv.getDataset().angle;
           var transform = 'scale(' + textScale + ', 1)';
           transform = 'rotate(' + rotation + 'deg) ' + transform;
           CustomStyle.setProp('transform' , textDiv, transform);
@@ -105,7 +105,7 @@ var TextLayerBuilder = (function TextLayerBuilderClosure() {
       var textDiv = document.createElement('div');
       this.textDivs.push(textDiv);
       if (!/\S/.test(geom.str)) {
-        textDiv.dataset.isWhitespace = true;
+        textDiv.getDataset().isWhitespace = true;
         return;
       }
       var tx = PDFJS.Util.transform(this.viewport.transform, geom.transform);
@@ -124,12 +124,12 @@ var TextLayerBuilder = (function TextLayerBuilderClosure() {
       textDiv.style.fontFamily = style.fontFamily;
 
       textDiv.textContent = geom.str;
-      textDiv.dataset.fontName = geom.fontName;
-      textDiv.dataset.angle = angle * (180 / Math.PI);
+      textDiv.getDataset().fontName = geom.fontName;
+      textDiv.getDataset().angle = angle * (180 / Math.PI);
       if (style.vertical) {
-        textDiv.dataset.canvasWidth = geom.height * this.viewport.scale;
+        textDiv.getDataset().canvasWidth = geom.height * this.viewport.scale;
       } else {
-        textDiv.dataset.canvasWidth = geom.width * this.viewport.scale;
+        textDiv.getDataset().canvasWidth = geom.width * this.viewport.scale;
       }
     },
 

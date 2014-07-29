@@ -115,9 +115,9 @@ function scrollIntoView(element, spot) {
     return;
   }
   while (parent.clientHeight === parent.scrollHeight) {
-    if (parent.dataset._scaleY) {
-      offsetY /= parent.dataset._scaleY;
-      offsetX /= parent.dataset._scaleX;
+    if (parent.getDataset()._scaleY) {
+      offsetY /= parent.getDataset()._scaleY;
+      offsetX /= parent.getDataset()._scaleX;
     }
     offsetY += parent.offsetTop;
     offsetX += parent.offsetLeft;
