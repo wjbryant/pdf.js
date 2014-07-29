@@ -254,7 +254,7 @@ var PDFView = {
         PDFJS.useOnlyCssZoom = value;
       })
       // TODO move more preferences and other async stuff here
-    ]).catch(function (reason) { });
+    ])['catch']catch(function (reason) { });
 
     return initializedPromise.then(function () {
       PDFView.initialized = true;
@@ -2037,7 +2037,7 @@ function updateViewarea() {
       'zoom': normalizedScaleValue,
       'scrollLeft': intLeft,
       'scrollTop': intTop
-    }).catch(function() {
+    })['catch'](function() {
       // unable to write to storage
     });
   });
