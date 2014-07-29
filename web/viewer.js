@@ -254,7 +254,7 @@ var PDFView = {
         PDFJS.useOnlyCssZoom = value;
       })
       // TODO move more preferences and other async stuff here
-    ])['catch']catch(function (reason) { });
+    ])['catch'](function (reason) { });
 
     return initializedPromise.then(function () {
       PDFView.initialized = true;
