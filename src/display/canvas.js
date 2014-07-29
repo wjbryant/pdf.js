@@ -37,9 +37,10 @@ function createScratchCanvas(width, height) {
   return canvas;
 }
 
+// defineProperty is not supported on DOM objects
 function addContextCurrentTransform(ctx) {
   // If the context doesn't expose a `mozCurrentTransform`, add a JS based on.
-  if (!ctx.mozCurrentTransform) {
+  //if (!ctx.mozCurrentTransform) {
     // Store the original context
     ctx._scaleX = ctx._scaleX || 1.0;
     ctx._scaleY = ctx._scaleY || 1.0;
@@ -54,14 +55,20 @@ function addContextCurrentTransform(ctx) {
     ctx._transformMatrix = [ctx._scaleX, 0, 0, ctx._scaleY, 0, 0];
     ctx._transformStack = [];
 
+    /*
     Object.defineProperty(ctx, 'mozCurrentTransform', {
       get: function getCurrentTransform() {
         return this._transformMatrix;
       }
     });
+    */
+    ctx.getCurrentTransform = function () {
+      return this._transformMatrix;
+    };
 
-    Object.defineProperty(ctx, 'mozCurrentTransformInverse', {
-      get: function getCurrentTransformInverse() {
+    //Object.defineProperty(ctx, 'mozCurrentTransformInverse', {
+    //  get: function getCurrentTransformInverse() {
+      ctx.getCurrentTransformInverse = function () {
         // Calculation done using WolframAlpha:
         // http://www.wolframalpha.com/input/?
         //   i=Inverse+{{a%2C+c%2C+e}%2C+{b%2C+d%2C+f}%2C+{0%2C+0%2C+1}}
@@ -80,8 +87,9 @@ function addContextCurrentTransform(ctx) {
           (d * e - c * f) / bc_ad,
           (b * e - a * f) / ad_bc
         ];
-      }
-    });
+      };
+    //  }
+    //});
 
     ctx.save = function ctxSave() {
       var old = this._transformMatrix;
@@ -153,7 +161,7 @@ function addContextCurrentTransform(ctx) {
 
       this._originalRotate(angle);
     };
-  }
+  //}
 }
 
 var CachedCanvases = (function CachedCanvasesClosure() {
@@ -725,7 +733,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       this.ctx.save();
       this.ctx.transform.apply(this.ctx, transform);
 
-      this.baseTransform = this.ctx.mozCurrentTransform.slice();
+      this.baseTransform = this.ctx.getCurrentTransform().slice();
 
       if (this.imageLayer) {
         this.imageLayer.beginLayout();
@@ -923,7 +931,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
         cacheId, drawnWidth, drawnHeight, true);
 
       var currentCtx = this.ctx;
-      var currentTransform = currentCtx.mozCurrentTransform;
+      var currentTransform = currentCtx.getCurrentTransform();
       this.ctx.save();
 
       var groupCtx = scratchCanvas.context;
@@ -1302,7 +1310,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       if (isAddToPathSet) {
         var paths = this.pendingTextPaths || (this.pendingTextPaths = []);
         paths.push({
-          transform: ctx.mozCurrentTransform,
+          transform: ctx.getCurrentTransform(),
           x: x,
           y: y,
           fontSize: fontSize,
@@ -1561,7 +1569,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       var pattern = getShadingPatternFromIR(patternIR);
       ctx.fillStyle = pattern.getPattern(ctx, this, true);
 
-      var inv = ctx.mozCurrentTransformInverse;
+      var inv = ctx.getCurrentTransformInverse();
       if (inv) {
         var canvas = ctx.canvas;
         var width = canvas.width;
@@ -1608,7 +1616,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
         this.transform.apply(this, matrix);
       }
 
-      this.baseTransform = this.ctx.mozCurrentTransform;
+      this.baseTransform = this.ctx.getCurrentTransform();
 
       if (isArray(bbox) && 4 === bbox.length) {
         var width = bbox[2] - bbox[0];
@@ -1650,7 +1658,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
         warn('Knockout groups not supported.');
       }
 
-      var currentTransform = currentCtx.mozCurrentTransform;
+      var currentTransform = currentCtx.getCurrentTransform();
       if (group.matrix) {
         currentCtx.transform.apply(currentCtx, group.matrix);
       }
@@ -1660,7 +1668,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       // will actually be.
       var bounds = Util.getAxialAlignedBoundingBox(
                     group.bbox,
-                    currentCtx.mozCurrentTransform);
+                    currentCtx.getCurrentTransform());
       // Clip the bounding box to the current canvas.
       var canvasBounds = [0,
                           0,
@@ -1794,7 +1802,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       ctx.drawImage(domImage, 0, 0, domImage.width, domImage.height,
                     0, -h, w, h);
       if (this.imageLayer) {
-        var currentTransform = ctx.mozCurrentTransformInverse;
+        var currentTransform = ctx.getCurrentTransformInverse();
         var position = this.getCanvasPosition(0, 0);
         this.imageLayer.appendImage({
           objId: objId,
@@ -1952,7 +1960,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       // scale the image to the unit square
       ctx.scale(1 / width, -1 / height);
 
-      var currentTransform = ctx.mozCurrentTransformInverse;
+      var currentTransform = ctx.getCurrentTransformInverse();
       var a = currentTransform[0], b = currentTransform[1];
       var widthScale = Math.max(Math.sqrt(a * a + b * b), 1);
       var c = currentTransform[2], d = currentTransform[3];
@@ -2101,14 +2109,14 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       ctx.beginPath();
     },
     getSinglePixelWidth: function CanvasGraphics_getSinglePixelWidth(scale) {
-      var inverse = this.ctx.mozCurrentTransformInverse;
+      var inverse = this.ctx.getCurrentTransformInverse();
       // max of the current horizontal and vertical scale
       return Math.sqrt(Math.max(
         (inverse[0] * inverse[0] + inverse[1] * inverse[1]),
         (inverse[2] * inverse[2] + inverse[3] * inverse[3])));
     },
     getCanvasPosition: function CanvasGraphics_getCanvasPosition(x, y) {
-        var transform = this.ctx.mozCurrentTransform;
+        var transform = this.ctx.getCurrentTransform();
         return [
           transform[0] * x + transform[2] * y + transform[4],
           transform[1] * x + transform[3] * y + transform[5]
